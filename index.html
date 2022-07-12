@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    // ! Разобратся с наименованием
+
+    let curr_page = 1
+    let nMaxPage = 49
+    let nOffset = 1
+    let aPages = []
+
+    // Переход к максимальной странице ( переотрисовать с 41, чтоб на конце 1)
+    function fRewriteMaxPage() {
+      curr_page = nMaxPage
+
+      aPages = []
+      for(let i=nMaxPage-10; i<nMaxPage; i++){
+        aPages.push(i)
+      }
+      console.log(aPages)
+
+    } 
+
+    // Переотрисовка страниц 
+    function fRewritePagination() { 
+      aPages = []
+      for(let i=nOffset; i<nOffset+10; i++){
+        aPages.push(i)
+      }
+      console.log(aPages)
+    }
+
+    // Переход к указанной странице
+    function fGoToPage(nPage) {
+      curr_page = nPage
+
+      // Вычислить смещение 
+      if(nPage !== nPage){
+        nOffset = Math.floor(nPage / 10) * 10 + 1
+        fRewritePagination()
+      } else {
+        fRewriteMaxPage()
+      }
+    } 
+
+    fGoToPage(39)
+
+    // Следующая страница
+    document.onclick = () => {
+      curr_page++
+      console.log(curr_page)
+
+      if(curr_page === nOffset+10 && curr_page < nMaxPage){
+        console.log(curr_page+' - переотрисовка!')
+        nOffset += 10
+        fRewritePagination()
+      }
+
+    }
+
+    // Предыдущая страница
+    document.oncontextmenu = () => {
+      curr_page--
+      console.log(curr_page)
+
+      if(curr_page === nOffset && curr_page > 1){
+        console.log(curr_page+' - переотрисовка!')
+        nOffset -= 10
+        fRewritePagination()
+      }
+
+      return false
+    }
+
+  </script>
+</body>
+</html>
